@@ -1,4 +1,4 @@
-name: Deploy portfolio to GitHub Pages
+name: Build and publish GitHub Pages branch
 
 on:
   push:
@@ -7,20 +7,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: github-pages
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build-and-publish:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -40,14 +35,18 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload static artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/public
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish static site to gh-pages branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -rf /tmp/portfolio-pages
+          mkdir -p /tmp/portfolio-pages
+          cp -R dist/public/. /tmp/portfolio-pages/
+          touch /tmp/portfolio-pages/.nojekyll
+          git fetch origin gh-pages || true
+          git checkout --orphan gh-pages-publish
+          git rm -rf .
+          cp -R /tmp/portfolio-pages/. .
+          git add .
+          git commit -m "Deploy static portfolio"
+          git push --force origin gh-pages-publish:gh-pages

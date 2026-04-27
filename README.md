@@ -39,4 +39,4 @@ dist/public
 
 ## Deployment
 
-This repository includes `.github/workflows/deploy-pages.yml`, which deploys the static site to GitHub Pages whenever `main` is updated.
+This repository includes `.github/workflows/deploy-pages.yml`, which builds the source on every `main` update and publishes the compiled static files to the `gh-pages` branch. GitHub Pages serves the site from that branch.
