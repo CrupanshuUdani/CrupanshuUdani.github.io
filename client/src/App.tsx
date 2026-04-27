@@ -27,10 +27,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { queryClient } from "./lib/queryClient";
 
-function openExternal(link: string) {
-  window.open(link, "_blank", "noopener,noreferrer");
-}
-
 function scrollToHash(hash: string) {
   const id = hash.replace("#", "");
   const el = document.getElementById(id);
@@ -155,20 +151,23 @@ function Header({ portfolio }: { portfolio: Portfolio }) {
 }
 
 function ExternalLinkButton({ link, primary = false }: { link: Link; primary?: boolean }) {
+  const external = !link.href.startsWith("mailto:");
+
   return (
-    <button
+    <a
       className={
         primary
           ? "inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-sm hover-elevate active-elevate-2"
           : "inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-border bg-card px-5 py-3 text-sm font-bold text-foreground hover-elevate active-elevate-2"
       }
-      data-testid={`button-link-${link.label.toLowerCase()}`}
-      onClick={() => (link.href.startsWith("mailto:") ? (window.location.href = link.href) : openExternal(link.href))}
-      type="button"
+      data-testid={`link-${link.label.toLowerCase()}`}
+      href={link.href}
+      rel={external ? "noopener noreferrer" : undefined}
+      target={external ? "_blank" : undefined}
     >
       {link.label}
       <ArrowUpRight className="h-4 w-4" />
-    </button>
+    </a>
   );
 }
 
@@ -341,15 +340,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <p className="mt-1 text-sm font-bold text-primary">{project.tagline}</p>
         </div>
         {project.links[0] ? (
-          <button
+          <a
             aria-label={`Open ${project.name}`}
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background hover-elevate active-elevate-2"
-            data-testid={`button-project-${index}`}
-            onClick={() => openExternal(project.links[0].href)}
-            type="button"
+            data-testid={`link-project-${index}`}
+            href={project.links[0].href}
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <ArrowUpRight className="h-5 w-5" />
-          </button>
+          </a>
         ) : null}
       </div>
       <p className="mt-5 text-sm leading-6 text-muted-foreground">{project.description}</p>
@@ -472,19 +472,20 @@ function Contact({ portfolio }: { portfolio: Portfolio }) {
         </div>
         <div className="flex flex-col gap-3 sm:min-w-64">
           {portfolio.profile.links.map((link) => (
-            <button
+            <a
               className="inline-flex min-h-11 items-center justify-between gap-3 rounded-md border border-border bg-background px-4 py-3 text-sm font-bold hover-elevate active-elevate-2"
-              data-testid={`button-footer-${link.label.toLowerCase()}`}
+              data-testid={`link-footer-${link.label.toLowerCase()}`}
+              href={link.href}
               key={link.href}
-              onClick={() => (link.href.startsWith("mailto:") ? (window.location.href = link.href) : openExternal(link.href))}
-              type="button"
+              rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+              target={link.href.startsWith("mailto:") ? undefined : "_blank"}
             >
               <span className="inline-flex items-center gap-2">
                 {link.label === "GitHub" ? <Github className="h-4 w-4" /> : link.label === "LinkedIn" ? <Linkedin className="h-4 w-4" /> : <Mail className="h-4 w-4" />}
                 {link.label}
               </span>
               <ArrowUpRight className="h-4 w-4" />
-            </button>
+            </a>
           ))}
         </div>
       </div>
