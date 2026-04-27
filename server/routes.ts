@@ -1,15 +1,17 @@
 import type { Express } from "express";
-import { createServer } from 'node:http';
 import type { Server } from 'node:http';
 import { storage } from "./storage";
+import { portfolioSchema } from "@shared/schema";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // prefix all routes with /api
-  // use storage to perform CRUD operations on the storage interface
-  // e.g. app.get("/api/items", async (_req, res) => { ... })
+  app.get("/api/portfolio", async (_req, res) => {
+    const portfolio = await storage.getPortfolio();
+    const parsed = portfolioSchema.parse(portfolio);
+    res.json(parsed);
+  });
 
   return httpServer;
 }
