@@ -1,4 +1,4 @@
-import { QueryClientProvider, useQuery } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import {
   ArrowUpRight,
   BookOpen,
@@ -14,7 +14,6 @@ import {
   Moon,
   Network,
   Server,
-  Sparkles,
   Sun,
   TerminalSquare,
   X,
@@ -23,15 +22,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Route, Router, Switch } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
 import type { Certification, Experience, Link, Portfolio, Project, SkillGroup } from "@shared/schema";
+import { portfolio as staticPortfolio } from "@shared/portfolio";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { queryClient } from "./lib/queryClient";
-
-function usePortfolio() {
-  return useQuery<Portfolio>({
-    queryKey: ["/api/portfolio"],
-  });
-}
 
 function openExternal(link: string) {
   window.open(link, "_blank", "noopener,noreferrer");
@@ -498,38 +492,8 @@ function Contact({ portfolio }: { portfolio: Portfolio }) {
   );
 }
 
-function LoadingPortfolio() {
-  return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="mx-auto max-w-7xl">
-        <div className="h-16 animate-pulse rounded-xl bg-muted" />
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <div className="h-96 animate-pulse rounded-xl bg-muted" />
-          <div className="h-96 animate-pulse rounded-xl bg-muted" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function PortfolioPage() {
-  const { data, isLoading, error } = usePortfolio();
-
-  if (isLoading) {
-    return <LoadingPortfolio />;
-  }
-
-  if (error || !data) {
-    return (
-      <main className="grid min-h-screen place-items-center bg-background px-4">
-        <div className="panel max-w-lg rounded-xl p-8 text-center">
-          <Sparkles className="mx-auto h-10 w-10 text-primary" />
-          <h1 className="font-display mt-4 text-3xl font-extrabold">Portfolio content is unavailable.</h1>
-          <p className="mt-3 text-muted-foreground">The modular backend did not return the expected content. Please try refreshing the page.</p>
-        </div>
-      </main>
-    );
-  }
+  const data = staticPortfolio;
 
   return (
     <>
