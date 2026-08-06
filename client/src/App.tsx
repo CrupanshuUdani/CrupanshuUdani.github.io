@@ -21,7 +21,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { Route, Router, Switch } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
-import type { Certification, Experience, Link, Portfolio, Project, SkillGroup } from "@shared/schema";
+import type { Certification, Experience, Link, Note, Portfolio, Project, SkillGroup } from "@shared/schema";
 import { portfolio as staticPortfolio } from "@shared/portfolio";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -102,15 +102,19 @@ function Header({ portfolio }: { portfolio: Portfolio }) {
         </button>
         <nav aria-label="Main navigation" className="hidden items-center gap-1 md:flex">
           {nav.map((item) => (
-            <button
+            <a
               className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              data-testid={`button-nav-${item.label.toLowerCase()}`}
+              data-testid={`link-nav-${item.label.toLowerCase()}`}
+              href={item.href}
               key={item.href}
-              onClick={() => scrollToHash(item.href)}
-              type="button"
+              onClick={(event) => {
+                event.preventDefault();
+                window.history.pushState(null, "", item.href);
+                scrollToHash(item.href);
+              }}
             >
               {item.label}
-            </button>
+            </a>
           ))}
         </nav>
         <div className="flex items-center gap-3">
@@ -130,18 +134,20 @@ function Header({ portfolio }: { portfolio: Portfolio }) {
         <nav className="border-t border-border bg-background px-4 py-4 md:hidden" data-testid="nav-mobile">
           <div className="mx-auto grid max-w-7xl gap-2">
             {nav.map((item) => (
-              <button
+              <a
                 className="rounded-md px-3 py-3 text-left text-sm font-semibold text-muted-foreground hover:bg-secondary hover:text-foreground"
-                data-testid={`button-mobile-nav-${item.label.toLowerCase()}`}
+                data-testid={`link-mobile-nav-${item.label.toLowerCase()}`}
+                href={item.href}
                 key={item.href}
-                onClick={() => {
+                onClick={(event) => {
+                  event.preventDefault();
                   setMenuOpen(false);
+                  window.history.pushState(null, "", item.href);
                   scrollToHash(item.href);
                 }}
-                type="button"
               >
                 {item.label}
-              </button>
+              </a>
             ))}
           </div>
         </nav>
@@ -251,6 +257,21 @@ function SectionTitle({ kicker, title, children }: { kicker: string; title: stri
       <h2 className="font-display mt-3 text-balance text-4xl font-extrabold tracking-[-0.04em] sm:text-5xl">{title}</h2>
       {children ? <p className="mt-4 text-lg leading-8 text-muted-foreground">{children}</p> : null}
     </div>
+  );
+}
+
+function AboutSection({ portfolio }: { portfolio: Portfolio }) {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8" id="about">
+      <SectionTitle kicker="About" title="From Meta-scale production systems to MLOps." />
+      <div className="grid gap-5 lg:grid-cols-2">
+        {portfolio.about.map((paragraph, index) => (
+          <p className="panel rounded-xl p-6 text-base leading-7 text-muted-foreground" data-testid={`text-about-${index}`} key={index}>
+            {paragraph}
+          </p>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -456,6 +477,50 @@ function EducationSection({ portfolio }: { portfolio: Portfolio }) {
   );
 }
 
+function NoteCard({ note, index }: { note: Note; index: number }) {
+  return (
+    <article className="panel rounded-xl p-6" data-testid={`card-note-${index}`}>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
+            {note.source} · {note.date}
+          </p>
+          <h3 className="font-display mt-3 text-xl font-extrabold tracking-tight">{note.title}</h3>
+        </div>
+        <a
+          aria-label={`Read ${note.title}`}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background hover-elevate active-elevate-2"
+          data-testid={`link-note-${index}`}
+          href={note.href}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <ArrowUpRight className="h-5 w-5" />
+        </a>
+      </div>
+    </article>
+  );
+}
+
+function NotesSection({ notes }: { notes: Note[] }) {
+  if (notes.length === 0) return null;
+
+  return (
+    <section className="bg-secondary/45 py-20" id="notes">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionTitle kicker="Writing" title="Notes on reliability, platforms, and the MLOps transition.">
+          External posts and articles, linked out to their original platform.
+        </SectionTitle>
+        <div className="grid gap-5 md:grid-cols-2">
+          {notes.map((note, index) => (
+            <NoteCard index={index} key={note.href} note={note} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Contact({ portfolio }: { portfolio: Portfolio }) {
   return (
     <footer className="border-t border-border bg-card" id="contact">
@@ -496,6 +561,12 @@ function Contact({ portfolio }: { portfolio: Portfolio }) {
 function PortfolioPage() {
   const data = staticPortfolio;
 
+  useEffect(() => {
+    if (!window.location.hash) return;
+    const hash = window.location.hash;
+    document.fonts.ready.then(() => scrollToHash(hash));
+  }, []);
+
   return (
     <>
       <a className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-primary-foreground" href="#main">
@@ -504,11 +575,13 @@ function PortfolioPage() {
       <Header portfolio={data} />
       <main id="main">
         <Hero portfolio={data} />
+        <AboutSection portfolio={data} />
         <Impact portfolio={data} />
         <ExperienceSection experience={data.experience} />
         <ProjectsSection projects={data.projects} />
         <SkillsSection certifications={data.certifications} groups={data.skillGroups} />
         <EducationSection portfolio={data} />
+        <NotesSection notes={data.notes} />
       </main>
       <Contact portfolio={data} />
     </>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://crupanshuudani.github.io/sitemap.xml
