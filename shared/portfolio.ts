@@ -11,12 +11,13 @@ export const portfolio: Portfolio = {
   profile: {
     name: "Crupanshu Udani",
     title: "Production Engineer | Reliability Engineering | Ex-Meta Core Infra/Data",
-    headline: "Production engineer for low-latency, high-frequency infrastructure.",
+    headline: "Production engineer building toward AI infrastructure and MLOps.",
     location: "San Francisco Bay Area",
     email: "crupanshu.udani@gmail.com",
-    availability: "Open to SRE, production engineering, platform, and AI infrastructure roles.",
+    availability:
+      "Currently pursuing an MBA and an MLOps transition; open to conversations about SRE, production engineering, platform, and AI infrastructure roles.",
     summary:
-      "Systems engineer with a foundation in backend systems, distributed computing, and infrastructure engineering. I focus on reliability, scalability, automation, and performance for critical services where correctness, latency, and operational clarity matter.",
+      "Systems engineer with a foundation in backend systems, distributed computing, and infrastructure engineering, built through production engineering work at Meta scale. Now pairing that operational foundation with an MBA and a self-directed MLOps transition, aimed at reliability engineering, MLOps, and AI infrastructure roles.",
     links: [
       { label: "GitHub", href: "https://github.com/CrupanshuUdani" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/crupanshu-udani/" },
@@ -24,6 +25,7 @@ export const portfolio: Portfolio = {
     ],
   },
   navigation: [
+    { label: "About", href: "#about" },
     { label: "Impact", href: "#impact" },
     { label: "Experience", href: "#experience" },
     { label: "Projects", href: "#projects" },
@@ -66,6 +68,10 @@ export const portfolio: Portfolio = {
     "Owned reliability, scalability, and performance for services where outages and delays directly affect production infrastructure.",
     "Reduced operational toil by replacing manual and slow workflows with automation, autoscaling, and proactive monitoring.",
     "Improved developer productivity through staging environments, tooling, testing frameworks, and cross-functional collaboration.",
+  ],
+  about: [
+    "I spent nearly three years as a Production Engineer inside Meta's Core Infra and Core Data organizations, owning reliability, scalability, and performance for Tier-0 services supporting roughly 10 billion queries per second and indexing over 10 petabytes of data daily. That foundation was built earlier at Infosys, shipping and maintaining an internet banking platform, and through a Master's in Computer Science at UT Arlington focused on databases and intelligent systems.",
+    "I'm currently pursuing an MBA at Westcliff University (started January 2026) alongside a self-directed MLOps transition through InterviewKickstart, pairing the production-systems discipline from Meta with machine learning infrastructure and the business context to make platform decisions. I'm building toward roles at the intersection of reliability engineering, MLOps, and AI infrastructure.",
   ],
   experience: [
     {
@@ -193,6 +199,10 @@ export const portfolio: Portfolio = {
       skills: ["Distributed systems", "Storage optimization", "Hive", "Spark", "Kafka", "Memcached", "CacheLib", "Docker", "Kubernetes", "Terraform"],
     },
     {
+      title: "AI/ML & MLOps foundations",
+      skills: ["MLOps", "Deep Learning", "Big Data Management and Data Science", "Computer Vision", "Model deployment"],
+    },
+    {
       title: "Programming",
       skills: ["Python", "C/C++", "Java", "Shell scripting", "JavaScript", "React"],
     },
@@ -216,6 +226,12 @@ export const portfolio: Portfolio = {
   ],
   education: [
     {
+      institution: "Westcliff University",
+      degree: "Master of Business Administration",
+      period: "Jan 2026 - Present",
+      detail: "MBA coursework paired with a self-directed MLOps transition, building toward AI/ML infrastructure roles.",
+    },
+    {
       institution: "The University of Texas at Arlington",
       degree: "Master of Science, Artificial Intelligence / Computer Science",
       period: "Aug 2020 - May 2022",
@@ -228,9 +244,10 @@ export const portfolio: Portfolio = {
       detail: "Computer engineering foundation across software systems, programming, and applied engineering.",
     },
   ],
+  notes: [],
   maintenance: {
     contentModel: "Static modular portfolio data",
     editHint:
-      "Edit shared/portfolio.ts to add, remove, reorder, or revise sections. GitHub Pages is static, so rebuild and push after content changes.",
+      "Edit shared/portfolio.ts to add, remove, reorder, or revise sections. GitHub Pages is static, so rebuild and push after content changes. `notes` links out to external writing (Substack/Medium/LinkedIn/etc) - see IDEAS.md for the RSS-automation option once you're publishing.",
   },
 };
