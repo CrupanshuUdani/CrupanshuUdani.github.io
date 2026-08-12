@@ -7,17 +7,19 @@ import type { Portfolio } from "./schema";
  * the private preview. This shared module keeps the site modular: edit this file
  * to add, remove, reorder, or revise sections, then rebuild and push.
  */
+const ROLES_OF_INTEREST = "SRE, production engineering, platform engineering, and AI infrastructure";
+
 export const portfolio: Portfolio = {
   profile: {
     name: "Crupanshu Udani",
-    title: "Production Engineer | Reliability Engineering | Ex-Meta Core Infra/Data",
+    title: "Production Engineer | Reliability & Core Infrastructure (Ex-Meta)",
     headline: "Production engineer building toward AI infrastructure and MLOps.",
     location: "San Francisco Bay Area",
     email: "crupanshu.udani@gmail.com",
-    availability:
-      "Currently pursuing an MBA and an MLOps transition; open to conversations about SRE, production engineering, platform, and AI infrastructure roles.",
+    availability: `Currently pursuing an MBA and a self-directed MLOps transition; open to conversations about ${ROLES_OF_INTEREST} roles.`,
     summary:
-      "Systems engineer with a foundation in backend systems, distributed computing, and infrastructure engineering, built through production engineering work at Meta scale. Now pairing that operational foundation with an MBA and a self-directed MLOps transition, aimed at reliability engineering, MLOps, and AI infrastructure roles.",
+      "Production engineer with three years at Meta building and operating Tier-0 distributed systems, now pairing that operational foundation with an MBA and a self-directed MLOps transition aimed at reliability engineering, MLOps, and AI infrastructure roles.",
+    rolesOfInterest: ROLES_OF_INTEREST,
     links: [
       { label: "GitHub", href: "https://github.com/CrupanshuUdani" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/crupanshu-udani/" },
@@ -41,12 +43,12 @@ export const portfolio: Portfolio = {
     {
       value: "~100K",
       label: "Servers",
-      detail: "Infrastructure footprint across low-latency distribution and indexing systems.",
+      detail: "Servers across the Tier-0 distribution and indexing systems this role supported.",
     },
     {
       value: "10+ PB",
       label: "Indexed daily",
-      detail: "Data warehouse traffic served through high-frequency distributed systems.",
+      detail: "Data indexed daily across Meta's distributed storage and indexing systems.",
     },
     {
       value: "10x",
@@ -56,22 +58,22 @@ export const portfolio: Portfolio = {
     {
       value: "3-10m",
       label: "Distribution time",
-      detail: "Reduced remote storage distribution from 45-80 minutes.",
+      detail: "Reduced remote storage distribution from 45-80 minutes to 3-10 minutes by moving from a push-based to a pull-based model.",
     },
     {
       value: "0.8 MW/hr",
       label: "Power savings",
-      detail: "Autoscaling work improved capacity efficiency and infrastructure cost posture.",
+      detail: "Autoscaling improvements cut wasted compute capacity, saving an estimated 0.8 MW/hr across the fleet.",
     },
   ],
   impactNarrative: [
-    "Owned reliability, scalability, and performance for services where outages and delays directly affect production infrastructure.",
-    "Reduced operational toil by replacing manual and slow workflows with automation, autoscaling, and proactive monitoring.",
-    "Improved developer productivity through staging environments, tooling, testing frameworks, and cross-functional collaboration.",
+    "Owned uptime and latency for Tier-0 services where an outage or a slow response propagates directly into product-facing failures.",
+    "Replaced manual, error-prone operational workflows with automation, autoscaling, and proactive monitoring, cutting toil and incident response time.",
+    "Raised developer velocity by building staging environments, internal tooling, and testing frameworks that other engineers relied on daily.",
   ],
   about: [
-    "I spent nearly three years as a Production Engineer inside Meta's Core Infra and Core Data organizations, owning reliability, scalability, and performance for Tier-0 services supporting roughly 10 billion queries per second and indexing over 10 petabytes of data daily. That foundation was built earlier at Infosys, shipping and maintaining an internet banking platform, and through a Master's in Computer Science at UT Arlington focused on databases and intelligent systems.",
-    "I'm currently pursuing an MBA at Westcliff University (started January 2026) alongside a self-directed MLOps transition through InterviewKickstart, pairing the production-systems discipline from Meta with machine learning infrastructure and the business context to make platform decisions. I'm building toward roles at the intersection of reliability engineering, MLOps, and AI infrastructure.",
+    "I spent nearly three years as a Production Engineer inside Meta's Core Infra org, on the Core Data team, keeping Tier-0 services healthy at roughly 10 billion queries per second and 10+ petabytes indexed daily. That foundation was built earlier at Infosys, shipping and maintaining an internet banking platform, and through a Master's in Computer Science at UT Arlington focused on databases and intelligent systems.",
+    "I'm currently pursuing an MBA at Westcliff University (started January 2026) alongside a self-directed MLOps transition through InterviewKickstart, pairing Meta's production-systems discipline with machine learning infrastructure and the business judgment to make platform investment decisions. I'm building toward roles at the intersection of reliability engineering, MLOps, and AI infrastructure.",
   ],
   experience: [
     {
@@ -85,10 +87,10 @@ export const portfolio: Portfolio = {
         "Managed reliability, scalability, and performance for systems supporting ~10B QPS and indexing 10+ PB of data daily.",
         "Built automation for region and cluster turnup, making turnup workflows 10x faster.",
         "Moved remote data storage distribution from a push-based model to a pull-based model, reducing distribution time from 45-80 minutes to 3-10 minutes.",
-        "Created monitoring and intelligent alerting for storage issues, proactive usage shifts, and high-demand events such as New Year's traffic surges.",
-        "Handled incident triage, resolution, RCA, capacity planning, forecasting, and service autoscaling to maintain service SLOs.",
+        "Built monitoring and intelligent alerting for storage issues, usage spikes, and high-demand events such as New Year's traffic surges.",
+        "Handled incident triage, resolution, RCA, capacity planning, forecasting, and autoscaling to maintain SLOs.",
       ],
-      technologies: ["Python", "C/C++", "Shell", "Hive", "Spark", "Memcached", "CacheLib", "Mercurial"],
+      technologies: ["Python", "C/C++", "Shell", "Hive", "Spark", "Memcached", "CacheLib", "Mercurial", "Docker", "Kubernetes", "RocksDB"],
     },
     {
       role: "Software Engineering Intern",
@@ -99,9 +101,9 @@ export const portfolio: Portfolio = {
         "Modified and extended Java-based applications while collaborating with program managers, business analysts, and technical leads.",
       highlights: [
         "Worked across requirements analysis, application development, and existing-system improvements.",
-        "Used modern backend and integration technologies including messaging, persistence, and machine learning-adjacent tooling.",
+        "Built and modified features across messaging, persistence, and integration layers using RabbitMQ, Kafka, Hibernate, MongoDB and MySQL.",
       ],
-      technologies: ["Java", "Spring Cloud", "RabbitMQ", "Hibernate", "Kafka", "Machine Learning", "MySQL"],
+      technologies: ["Java", "Spring Cloud", "RabbitMQ", "Hibernate", "Kafka", "Machine Learning", "MySQL", "MongoDB"],
     },
     {
       role: "Student Assistant, Web Developer",
@@ -124,9 +126,9 @@ export const portfolio: Portfolio = {
       summary:
         "Full-stack engineering for an internet banking platform in a distributed Agile environment with direct client exposure.",
       highlights: [
-        "Gathered client requirements, proposed high-level designs, and implemented feature modules for banking workflows.",
-        "Led migration of a legacy platform to a newer architecture with minimal disruption to operations.",
-        "Improved engineering productivity through tooling, scripting, unit testing, automation testing, and CI/CD practices.",
+        "Gathered requirements and implemented feature modules for core banking workflows, working directly with client stakeholders on design proposals.",
+        "Led migration of a legacy module to a modernized architecture with minimal disruption to live banking operations.",
+        "Raised team engineering velocity through internal tooling, unit and automation testing, and CI/CD adoption.",
       ],
       technologies: ["React", "JavaScript", "jQuery", "J2EE", "Spring Boot", "IBM WebSphere", "Tomcat", "MSSQL", "Git"],
     },
@@ -145,7 +147,7 @@ export const portfolio: Portfolio = {
       name: "Image Detection from CAD Models",
       tagline: "Computer vision and model-based image detection",
       description:
-        "Repository containing partially trained models for image detection work using CAD-model-derived images of dogs and cats.",
+        "Computer vision pipeline for detecting dogs and cats in CAD-model-derived images, covering data preprocessing, model training, and evaluation.",
       stack: ["Jupyter Notebook", "Computer Vision", "Deep Learning"],
       links: [{ label: "Repository", href: "https://github.com/CrupanshuUdani/Image-Detection-from-CAD-models" }],
       featured: true,
@@ -164,7 +166,7 @@ export const portfolio: Portfolio = {
       name: "Texas Weather Data Analysis",
       tagline: "Clustering analysis on state weather patterns",
       description:
-        "Cluster analysis on unstructured Texas weather data from 2006-2010 to uncover meaningful patterns across weather features.",
+        "Cluster analysis on five years of unstructured Texas weather data (2006-2010) to group stations by shared weather behavior.",
       period: "October 2020 - November 2020",
       stack: ["Data Analysis", "Clustering", "Weather Data"],
       links: [{ label: "Repository", href: "https://github.com/CrupanshuUdani/Weather-Data-Texas" }],
@@ -174,7 +176,7 @@ export const portfolio: Portfolio = {
       name: "Bank Marketing Dataset Analysis",
       tagline: "Applied analytics on marketing outcomes",
       description:
-        "Data analysis project focused on extracting patterns from bank marketing data and understanding campaign-related outcomes.",
+        "Data analysis project identifying which customer and campaign attributes correlated with marketing outcomes in a bank marketing dataset.",
       stack: ["Data Analysis", "Machine Learning", "Research"],
       links: [{ label: "Repository", href: "https://github.com/CrupanshuUdani/Bank-Marketing-Dataset-Analysis" }],
       featured: false,
@@ -183,7 +185,7 @@ export const portfolio: Portfolio = {
       name: "CyberSecurityCourse",
       tagline: "Security coursework and applied learning",
       description:
-        "Public coursework repository from a CodePath cybersecurity course, reflecting applied security learning and practice.",
+        "Public coursework repository from a CodePath cybersecurity course, covering applied exercises in security fundamentals.",
       stack: ["Cybersecurity", "Coursework", "Security Fundamentals"],
       links: [{ label: "Repository", href: "https://github.com/CrupanshuUdani/CyberSecurityCourse" }],
       featured: false,
@@ -200,7 +202,7 @@ export const portfolio: Portfolio = {
     },
     {
       title: "AI/ML & MLOps foundations",
-      skills: ["MLOps", "Deep Learning", "Big Data Management and Data Science", "Computer Vision", "Model deployment"],
+      skills: ["MLOps", "Deep Learning", "Big data & data science fundamentals", "Computer Vision", "Model deployment"],
     },
     {
       title: "Programming",
@@ -235,19 +237,23 @@ export const portfolio: Portfolio = {
       institution: "The University of Texas at Arlington",
       degree: "Master of Science, Artificial Intelligence / Computer Science",
       period: "Aug 2020 - May 2022",
-      detail: "Specialization in Database and Intelligent Systems; LinkedIn profile lists GPA 3.7/4.0.",
+      detail: "Specialization in Database and Intelligent Systems; GPA 3.7/4.0.",
     },
     {
       institution: "Dharmsinh Desai University",
       degree: "Bachelor of Technology, Computer Engineering",
       period: "2013 - 2017",
-      detail: "Computer engineering foundation across software systems, programming, and applied engineering.",
+      detail: "Coursework spanning software systems, programming, and applied computer engineering.",
     },
   ],
   notes: [],
-  maintenance: {
-    contentModel: "Static modular portfolio data",
-    editHint:
-      "Edit shared/portfolio.ts to add, remove, reorder, or revise sections. GitHub Pages is static, so rebuild and push after content changes. `notes` links out to external writing (Substack/Medium/LinkedIn/etc) - see IDEAS.md for the RSS-automation option once you're publishing.",
+  seo: {
+    title: "Crupanshu Udani | Production Engineer — Reliability & Core Infrastructure",
+    description:
+      "Portfolio for Crupanshu Udani, a production engineer with three years at Meta building Tier-0 reliability, distributed systems, and infrastructure automation, now transitioning toward MLOps and AI infrastructure.",
+    siteUrl: "https://crupanshuudani.github.io/",
+    ogImage: "https://crupanshuudani.github.io/og-image.jpg",
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
   },
 };

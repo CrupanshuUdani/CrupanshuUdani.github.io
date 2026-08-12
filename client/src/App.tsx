@@ -33,11 +33,11 @@ function scrollToHash(hash: string) {
   el?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function Logo() {
+function Logo({ profile }: { profile: Portfolio["profile"] }) {
   return (
     <div className="flex items-center gap-3" data-testid="brand-logo">
       <svg
-        aria-label="Crupanshu Udani portfolio mark"
+        aria-label={`${profile.name} portfolio mark`}
         className="h-11 w-11 text-primary"
         fill="none"
         viewBox="0 0 48 48"
@@ -49,7 +49,7 @@ function Logo() {
         <path d="M24 24h8M24 24l-6-5M24 24l-6 5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
       </svg>
       <div>
-        <p className="font-display text-base font-bold leading-tight">Crupanshu Udani</p>
+        <p className="font-display text-base font-bold leading-tight">{profile.name}</p>
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Core Infra</p>
       </div>
     </div>
@@ -98,7 +98,7 @@ function Header({ portfolio }: { portfolio: Portfolio }) {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           type="button"
         >
-          <Logo />
+          <Logo profile={portfolio.profile} />
         </button>
         <nav aria-label="Main navigation" className="hidden items-center gap-1 md:flex">
           {nav.map((item) => (
@@ -221,28 +221,23 @@ function Hero({ portfolio }: { portfolio: Portfolio }) {
               <TerminalSquare className="h-6 w-6 text-primary" />
             </div>
             <div className="grid gap-4 p-5">
-              {[
-                ["Traffic", "~10B QPS", "Tier-0 services"],
-                ["Data", "10+ PB/day", "Distribution + indexing"],
-                ["Automation", "10x faster", "Region/cluster turnup"],
-                ["Efficiency", "0.8 MW/hr", "Autoscaling savings"],
-              ].map(([label, value, detail], index) => (
-                <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg bg-background/70 p-4" key={label}>
+              {[metrics[0], metrics[2], metrics[3], metrics[5]].map((metric, index) => (
+                <div className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-lg bg-background/70 p-4" key={metric.label}>
                   <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
                     {[<Network />, <Database />, <Cpu />, <Server />][index]}
                   </div>
                   <div>
-                    <p className="text-sm font-bold">{label}</p>
-                    <p className="text-xs text-muted-foreground">{detail}</p>
+                    <p className="text-sm font-bold">{metric.label}</p>
+                    <p className="text-xs text-muted-foreground">{metric.detail}</p>
                   </div>
-                  <p className="font-display text-xl font-extrabold text-foreground">{value}</p>
+                  <p className="font-display text-xl font-extrabold text-foreground">{metric.value}</p>
                 </div>
               ))}
             </div>
           </div>
           <div className="absolute -bottom-6 -right-2 hidden w-64 rounded-xl border border-border bg-card p-5 shadow-lg sm:block">
             <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">Current direction</p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">SRE, production engineering, platform systems, and AI infrastructure.</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">{profile.rolesOfInterest}.</p>
           </div>
         </div>
       </div>
@@ -529,10 +524,7 @@ function Contact({ portfolio }: { portfolio: Portfolio }) {
           <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary">Contact</p>
           <h2 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.04em]">Let’s talk about reliable systems.</h2>
           <p className="mt-4 max-w-2xl text-muted-foreground">
-            Best fit: SRE, production engineering, platform engineering, core infrastructure, and AI infrastructure roles that need strong systems ownership.
-          </p>
-          <p className="mt-4 rounded-md bg-secondary p-4 text-sm text-muted-foreground" data-testid="text-maintenance-note">
-            Modular content note: {portfolio.maintenance.editHint}
+            Best fit: {portfolio.profile.rolesOfInterest} roles that need strong systems ownership.
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:min-w-64">
