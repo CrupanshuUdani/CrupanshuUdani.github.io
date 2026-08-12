@@ -66,6 +66,7 @@ export const portfolioSchema = z.object({
     email: z.string(),
     availability: z.string(),
     summary: z.string(),
+    rolesOfInterest: z.string(),
     links: z.array(linkSchema),
   }),
   navigation: z.array(linkSchema),
@@ -78,9 +79,13 @@ export const portfolioSchema = z.object({
   certifications: z.array(certificationSchema),
   education: z.array(educationSchema),
   notes: z.array(noteSchema),
-  maintenance: z.object({
-    contentModel: z.string(),
-    editHint: z.string(),
+  seo: z.object({
+    title: z.string(),
+    description: z.string(),
+    siteUrl: z.string(),
+    ogImage: z.string(),
+    ogImageWidth: z.number(),
+    ogImageHeight: z.number(),
   }),
 });
 
