@@ -18,6 +18,19 @@ Findings and options surfaced during an audit (Aug 2026) that weren't part of th
 - This is very likely a kernel/Go-binary compatibility issue specific to this bleeding-edge local setup, not something wrong with the repo — GitHub Actions CI runs on `ubuntu-latest`, a completely different environment, so the deploy workflow should be unaffected.
 - **Workaround confirmed working**: run build/dev inside a `node:20` container (matches CI's Node version), which sidesteps the host esbuild binary entirely. See the "Known local-machine issue" section of `CLAUDE.md` for the exact `docker run` invocation. Still worth root-causing the host issue eventually (older Node LTS via nvm/fnm, or an upstream esbuild GitHub issue for this kernel/Node combo), but no longer blocking local iteration.
 
+## No pre-merge CI validation on pull requests
+`.github/workflows/deploy-pages.yml` triggers only on `push` to `main` (plus `workflow_dispatch`), so nothing runs against a PR branch — `gh pr checks` reports "no checks reported", and the `npm run check` / `npm run build` gate fires only *after* a merge lands. A type error or broken build is caught on `main`, not before it. Observed on PR #3.
+
+The obvious fix — adding `pull_request` to that workflow's `on:` block — is wrong as-is, for two reasons:
+- The publish step force-pushes to `gh-pages`. On a PR trigger it would deploy unreviewed branch content to the live site. It would need an `if: github.event_name == 'push'` guard.
+- `permissions: contents: write` is declared workflow-wide, so PR runs would inherit write access they don't need. Fork PRs get a read-only token anyway, but same-repo branches would not.
+
+Two ways to do it properly:
+1. **Separate `ci.yml`** (preferred) — a small workflow on `pull_request` with `permissions: contents: read`, running just `npm ci` → `npm run check` → `npm run build`. Leaves the deploy workflow untouched, so there's no way to misfire a publish. Duplicates ~4 setup lines, which is the right trade.
+2. **One workflow, guarded** — add the `pull_request` trigger, drop workflow-level permissions to `contents: read`, and grant `contents: write` on the publish job only, behind an event-name check. Fewer files, but every future edit has to keep the guard correct.
+
+Worth pairing with a branch-protection rule requiring the check to pass before merge — otherwise the signal exists but nothing enforces it.
+
 ## Backend/dependency cleanup
 GitHub Pages only ever serves `dist/public` (the static Vite build). None of the following run in production, but they're still installed, type-checked, and bundled on every build:
 - `server/` — Express, Passport, Passport-Local, express-session, memorystore, Supabase client, `drizzle-orm`/`drizzle-kit`/`drizzle.config.ts`, `better-sqlite3`, `ws`. This is scaffold leftover from a generic full-stack template; none of it is reachable from a static host.
