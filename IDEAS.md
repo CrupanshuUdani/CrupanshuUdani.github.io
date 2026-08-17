@@ -9,14 +9,14 @@ Findings and options surfaced during an audit (Aug 2026) that weren't part of th
 - Either just needs a `<form action="https://...">` pointed at the provider; no code changes to the React app's data model.
 
 ## Visitor analytics beyond GoatCounter
-- GoatCounter is the chosen provider (privacy-friendly, cookie-free). Not yet wired into `index.html` — needs your site code from goatcounter.com first.
+- GoatCounter is wired into `client/index.html` and live (site code `crupanshu-github`).
 - If GoatCounter's free tier ever becomes limiting, Plausible or Umami Cloud are the next comparable privacy-friendly options (paid).
 
 ## Local build tooling is currently broken on this machine
 - `npm run build` and `npm run dev` both crash with a native `esbuild` binary segfault (`SIGSEGV`) on this specific machine (Arch Linux, kernel `6.18.41-1-lts`, Node `v26.5.1`). Reproduced with the plain esbuild CLI in isolation (`echo "x" | esbuild --loader=ts`) — not caused by any app code.
 - `npm run check` (plain `tsc`, no esbuild) works fine, so type-correctness was verified that way instead.
 - This is very likely a kernel/Go-binary compatibility issue specific to this bleeding-edge local setup, not something wrong with the repo — GitHub Actions CI runs on `ubuntu-latest`, a completely different environment, so the deploy workflow should be unaffected.
-- If you hit this locally too: worth checking for an esbuild GitHub issue matching this kernel/Node combo, or trying an older Node LTS locally via nvm/fnm to rule out a Node 26 interaction.
+- **Workaround confirmed working**: run build/dev inside a `node:20` container (matches CI's Node version), which sidesteps the host esbuild binary entirely. See the "Known local-machine issue" section of `CLAUDE.md` for the exact `docker run` invocation. Still worth root-causing the host issue eventually (older Node LTS via nvm/fnm, or an upstream esbuild GitHub issue for this kernel/Node combo), but no longer blocking local iteration.
 
 ## Backend/dependency cleanup
 GitHub Pages only ever serves `dist/public` (the static Vite build). None of the following run in production, but they're still installed, type-checked, and bundled on every build:
@@ -26,7 +26,6 @@ GitHub Pages only ever serves `dist/public` (the static Vite build). None of the
 - Removing these would shrink `npm install` time, `node_modules` size, and CI build time, and reduce the dependency surface `npm audit` flags. It's a bigger, higher-risk change than the rest of this pass (touches `script/build.ts`, `tsconfig.json`, `vite.config.ts` aliases, and `shared/schema.ts` must keep working since it's the one thing both the static site and the (unused) API route share) — worth doing as its own dedicated pass.
 
 ## Design/UX polish
-- **Theme toggle doesn't persist.** `ThemeToggle` in `App.tsx` only reads `prefers-color-scheme` on mount and never writes the user's explicit choice to `localStorage` — every reload forgets a manual light/dark override.
 - **Project case-study depth.** Older academic projects (Texas Weather, Bank Marketing, CyberSecurityCourse) have generic one-line descriptions and no screenshots/live links, in contrast to the polished, metrics-driven Experience section.
 - **Resume/CV download link** — not currently offered anywhere on the site.
 

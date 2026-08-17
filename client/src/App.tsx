@@ -56,20 +56,23 @@ function Logo({ profile }: { profile: Portfolio["profile"] }) {
   );
 }
 
-function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+// Must stay in sync with the pre-paint init script in client/index.html.
+const THEME_STORAGE_KEY = "theme";
 
-  useEffect(() => {
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const next = prefersDark ? "dark" : "light";
-    setTheme(next);
-    document.documentElement.classList.toggle("dark", next === "dark");
-  }, []);
+function ThemeToggle() {
+  const [theme, setTheme] = useState<"light" | "dark">(() =>
+    document.documentElement.classList.contains("dark") ? "dark" : "light",
+  );
 
   function toggleTheme() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.classList.toggle("dark", next === "dark");
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, next);
+    } catch {
+      // Storage unavailable — the choice still applies for this session.
+    }
   }
 
   return (

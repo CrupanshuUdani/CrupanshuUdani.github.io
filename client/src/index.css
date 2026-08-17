@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
   --button-outline: rgba(14, 31, 43, 0.12);
   --badge-outline: rgba(14, 31, 43, 0.08);
   --opaque-button-border-intensity: -8;
@@ -69,6 +70,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --button-outline: rgba(234, 244, 242, 0.12);
   --badge-outline: rgba(234, 244, 242, 0.08);
   --opaque-button-border-intensity: 9;
