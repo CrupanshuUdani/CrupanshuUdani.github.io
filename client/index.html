@@ -3,6 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Runs before first paint so the correct theme is applied without a flash.
+      // The "theme" storage key must stay in sync with ThemeToggle in client/src/App.tsx.
+      (function () {
+        var stored = null;
+        try { stored = localStorage.getItem("theme"); } catch (e) {}
+        var dark =
+          stored === "dark" ||
+          (stored !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("dark", dark);
+      })();
+    </script>
     <!-- SEO_META_TAGS -->
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
