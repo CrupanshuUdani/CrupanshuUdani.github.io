@@ -15,7 +15,6 @@ export const portfolio: Portfolio = {
     title: "Production Engineer | Reliability & Core Infrastructure (Ex-Meta)",
     headline: "Production engineer building toward AI infrastructure and MLOps.",
     location: "San Francisco Bay Area",
-    email: "crupanshu.udani@gmail.com",
     availability: `Currently pursuing an MBA and a self-directed MLOps transition; open to conversations about ${ROLES_OF_INTEREST} roles.`,
     summary:
       "Production engineer with three years at Meta building and operating Tier-0 distributed systems, now pairing that operational foundation with an MBA and a self-directed MLOps transition aimed at reliability engineering, MLOps, and AI infrastructure roles.",
@@ -23,7 +22,6 @@ export const portfolio: Portfolio = {
     links: [
       { label: "GitHub", href: "https://github.com/CrupanshuUdani" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/crupanshu-udani/" },
-      { label: "Email", href: "mailto:crupanshu.udani@gmail.com" },
     ],
   },
   navigation: [
