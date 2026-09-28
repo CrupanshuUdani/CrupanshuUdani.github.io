@@ -7,6 +7,7 @@ Findings and options surfaced during an audit (Aug 2026) that weren't part of th
   - **Formspree** — most popular, free tier (~50 submissions/mo), dashboard, spam filtering.
   - **Web3Forms** — free, no dashboard, just an access key emailed to you; simplest to wire up.
 - Either just needs a `<form action="https://...">` pointed at the provider; no code changes to the React app's data model.
+- **No email address on the site, by choice (Sep 2026).** The personal Gmail was removed from the hero/footer links and from `profile` (it had also been shipping inside the JS bundle). GitHub and LinkedIn are the contact paths. If email comes back, use a domain alias (e.g. Cloudflare Email Routing `hello@crupanshuudani.com` → inbox), never a personal address. GitHub's `users.noreply.github.com` address can't receive mail, so it isn't an option.
 
 ## Visitor analytics beyond GoatCounter
 - GoatCounter is wired into `client/index.html` and live (site code `crupanshu-github`).

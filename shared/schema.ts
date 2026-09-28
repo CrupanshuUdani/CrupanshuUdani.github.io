@@ -63,7 +63,6 @@ export const portfolioSchema = z.object({
     title: z.string(),
     headline: z.string(),
     location: z.string(),
-    email: z.string(),
     availability: z.string(),
     summary: z.string(),
     rolesOfInterest: z.string(),
