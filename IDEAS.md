@@ -46,3 +46,12 @@ GitHub Pages only ever serves `dist/public` (the static Vite build). None of the
 `portfolio.notes` ships empty and the section stays hidden until it has content. Two ways to populate it later:
 1. Add entries by hand to `shared/portfolio.ts` (`{ title, source, href, date }`).
 2. Automate it: [`gautamkrishnar/blog-post-workflow`](https://github.com/marketplace/actions/blog-post-workflow) is the standard GitHub Action for this — it polls an RSS feed (Dev.to/Medium/Hashnode/Substack all expose one per-user) on a schedule and can commit the latest posts into the repo for the site to render. Verify the action's current input names at wire-up time rather than trusting anything written here now.
+
+## VPS demo box for live project demos
+The portfolio itself stays on static hosting permanently — a CDN serves it faster than any single box, with no patching, downtime, or attack surface. A server only earns its place for things that *execute code*: live model endpoints, dashboards, APIs behind project showcases.
+
+- **Scope:** a small VPS behind `demo.<domain>` (or per-project subdomains), never the apex. If it's down or compromised, only the demos break — a recruiter never lands on a dead homepage.
+- **Why it's worth doing at all:** for an SRE/MLOps portfolio the box is itself a showcase — Terraform-provisioned, k3s, Grafana/Prometheus, CI/CD deploys, uptime alerting, a written runbook.
+- **Cheaper alternatives first:** Cloudflare Workers (free tier) for a tiny API/form handler; Hugging Face Spaces (free CPU tier) for a single model demo. Reach for the VPS only once there's a project that genuinely needs a long-running service.
+- **Candidates:** Hetzner, DigitalOcean, or Oracle Cloud's always-free tier. Prices weren't verified when this was written (Sep 2026) — compare current pricing before buying. A true dedicated server is overkill; a VPS demonstrates the same skills.
+- Deferred because: no project yet needs a live backend, and running it well (patching, monitoring, backups) is an ongoing cost that should be paid only once there's something to show.
