@@ -17,3 +17,6 @@ data.db-journal
 .claude/*
 
 CLAUDE.md
+
+# Local planning docs (superpowers) — not part of the shipped site
+docs/superpowers/
