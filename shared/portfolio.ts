@@ -251,8 +251,8 @@ export const portfolio: Portfolio = {
     title: "Crupanshu Udani | Production Engineer — Reliability & Core Infrastructure",
     description:
       "Portfolio for Crupanshu Udani, a production engineer with three years at Meta building Tier-0 reliability, distributed systems, and infrastructure automation, now transitioning toward MLOps and AI infrastructure.",
-    siteUrl: "https://crupanshuudani.github.io/",
-    ogImage: "https://crupanshuudani.github.io/og-image.jpg",
+    siteUrl: "https://crupanshuudani.com/",
+    ogImage: "https://crupanshuudani.com/og-image.jpg",
     ogImageWidth: 1200,
     ogImageHeight: 630,
   },
