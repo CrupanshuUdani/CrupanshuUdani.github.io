@@ -20,8 +20,6 @@ function Logo({ name }: { name: string }) {
         <rect width="42" height="42" x="3" y="3" rx="12" stroke="currentColor" strokeWidth="2.5" />
         <path d="M17 16c-4 0-7 3.1-7 8s3 8 7 8c2.8 0 5-1.1 6.4-3" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5" />
         <path d="M27 15v10.2c0 4.2 2.3 6.8 6 6.8s6-2.6 6-6.8V15" stroke="currentColor" strokeLinecap="round" strokeWidth="2.5" />
-        <circle cx="24" cy="24" r="2.2" fill="currentColor" />
-        <path d="M24 24h8M24 24l-6-5M24 24l-6 5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
       </svg>
       <div>
         <p className="font-display text-base font-bold leading-tight">{name}</p>
