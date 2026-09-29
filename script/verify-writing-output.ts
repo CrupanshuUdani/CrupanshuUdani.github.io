@@ -41,13 +41,17 @@ async function checkPage(file: string, label: string, opts: { article: boolean }
 
   if (opts.article) {
     check(/"@type":"BlogPosting"/.test(html), `${label}: JSON-LD is not BlogPosting`);
-    const body = html
+    // Only the rendered markdown counts: page chrome (nav, footer) alone is ~400 chars and
+    // would let an empty post pass. The post template renders the body in div.prose-site,
+    // the last element inside <article>.
+    const bodyHtml = html.match(/<div class="prose-site"[^>]*>([\s\S]*?)<\/article>/)?.[1] ?? "";
+    const body = bodyHtml
       .replace(/<script[\s\S]*?<\/script>/g, "")
       .replace(/<style[\s\S]*?<\/style>/g, "")
       .replace(/<[^>]+>/g, " ")
       .replace(/\s+/g, " ")
       .trim();
-    check(body.length > 400, `${label}: rendered text is only ${body.length} chars — body did not render`);
+    check(body.length >= 100, `${label}: post body text is only ${body.length} chars — the markdown did not render`);
   }
   return html;
 }
