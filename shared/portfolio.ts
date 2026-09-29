@@ -244,7 +244,6 @@ export const portfolio: Portfolio = {
       detail: "Coursework spanning software systems, programming, and applied computer engineering.",
     },
   ],
-  notes: [],
   seo: {
     title: "Crupanshu Udani | Production Engineer — Reliability & Core Infrastructure",
     description:

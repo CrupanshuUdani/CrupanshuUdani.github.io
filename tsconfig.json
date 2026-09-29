@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*", "client/src/**/*", "shared/**/*", "server/**/*", ".astro/types.d.ts"],
+  "include": ["src/**/*", "shared/**/*", "server/**/*", ".astro/types.d.ts"],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
     "incremental": true,
@@ -14,9 +14,8 @@
     "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
     "rootDir": "./",
-    "types": ["node", "vite/client", "astro/client"],
+    "types": ["node", "astro/client"],
     "paths": {
-      "@/*": ["./client/src/*"],
       "@shared/*": ["./shared/*"]
     }
   }

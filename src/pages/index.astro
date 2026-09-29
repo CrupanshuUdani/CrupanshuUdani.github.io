@@ -1,15 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { portfolio } from "@shared/portfolio";
-import {
-  AboutSection,
-  EducationSection,
-  ExperienceSection,
-  Hero,
-  Impact,
-  ProjectsSection,
-  SkillsSection,
-} from "@/App";
+import Hero from "../components/sections/Hero";
+import AboutSection from "../components/sections/AboutSection";
+import Impact from "../components/sections/Impact";
+import ExperienceSection from "../components/sections/ExperienceSection";
+import ProjectsSection from "../components/sections/ProjectsSection";
+import SkillsSection from "../components/sections/SkillsSection";
+import EducationSection from "../components/sections/EducationSection";
+import LatestWriting from "../components/LatestWriting.astro";
 
 const { profile, seo } = portfolio;
 
@@ -34,5 +33,6 @@ const jsonLd = {
     <ProjectsSection projects={portfolio.projects} />
     <SkillsSection certifications={portfolio.certifications} groups={portfolio.skillGroups} />
     <EducationSection portfolio={portfolio} />
+    <LatestWriting />
   </main>
 </BaseLayout>

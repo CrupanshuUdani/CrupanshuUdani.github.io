@@ -50,13 +50,6 @@ export const educationSchema = z.object({
   detail: z.string(),
 });
 
-export const noteSchema = z.object({
-  title: z.string(),
-  source: z.string(),
-  href: z.string(),
-  date: z.string(),
-});
-
 export const portfolioSchema = z.object({
   profile: z.object({
     name: z.string(),
@@ -77,7 +70,6 @@ export const portfolioSchema = z.object({
   skillGroups: z.array(skillGroupSchema),
   certifications: z.array(certificationSchema),
   education: z.array(educationSchema),
-  notes: z.array(noteSchema),
   seo: z.object({
     title: z.string(),
     description: z.string(),
@@ -95,5 +87,4 @@ export type Project = z.infer<typeof projectSchema>;
 export type SkillGroup = z.infer<typeof skillGroupSchema>;
 export type Certification = z.infer<typeof certificationSchema>;
 export type Education = z.infer<typeof educationSchema>;
-export type Note = z.infer<typeof noteSchema>;
 export type Portfolio = z.infer<typeof portfolioSchema>;

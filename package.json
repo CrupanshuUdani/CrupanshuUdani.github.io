@@ -4,13 +4,13 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "tsx script/build.ts",
-    "build:astro": "astro build",
-    "dev:astro": "astro dev",
-    "start": "NODE_ENV=production node dist/index.cjs",
-    "check": "astro sync && tsc",
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check && tsc",
     "verify:writing": "tsx script/verify-writing-output.ts",
+    "preview": "astro preview",
+    "build:server": "tsx script/build.ts",
+    "start": "NODE_ENV=production node dist/index.cjs",
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
