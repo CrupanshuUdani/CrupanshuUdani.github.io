@@ -79,6 +79,24 @@ try {
   active = false;
 }
 
+// Source/build consistency: every checked-in post source must build exactly one slug.
+const SOURCE_DIR = path.resolve("src/content/writing");
+let publishedSourceCount = 0;
+for (const file of await listFiles(SOURCE_DIR)) {
+  if (path.basename(file) === ".gitkeep") continue;
+  if (!file.endsWith(".md")) {
+    failures.push(`${path.relative(process.cwd(), file)}: unsupported content file (only .md is collected)`);
+    continue;
+  }
+  const contents = await readFile(file, "utf-8");
+  const frontmatter = contents.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? "";
+  if (!/^draft:\s*true\s*$/m.test(frontmatter)) publishedSourceCount++;
+}
+check(
+  publishedSourceCount === slugs.length,
+  `writing: ${publishedSourceCount} published source post(s) but ${slugs.length} built`,
+);
+
 const rss = await read(path.join(OUT, "rss.xml"), "rss.xml");
 const itemCount = rss === null ? 0 : (rss.match(/<item>/g) ?? []).length;
 const sitemap = await read(path.join(OUT, "sitemap-0.xml"), "sitemap-0.xml");
@@ -98,8 +116,11 @@ if (active) {
   if (sitemap !== null) check(!sitemap.includes("/writing/"), "sitemap: dormant but lists /writing/");
 }
 
-// Privacy: the owner removed their email from the site (2026-09-28). Keep it off.
-const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
+// Privacy: the owner's personal mailbox must stay off the site (removed 2026-09-28).
+// Narrowed to personal-mailbox domains so generic addresses in post content
+// (e.g. git@github.com) don't false-positive the check.
+const EMAIL =
+  /[A-Za-z0-9._%+-]+@(?:gmail|googlemail|outlook|hotmail|live|yahoo|icloud|me|proton|protonmail)\.[A-Za-z.]{2,}/gi;
 for (const file of await listFiles(OUT)) {
   if (!/\.(html|js|xml|txt)$/.test(file)) continue;
   const found = (await readFile(file, "utf-8")).match(EMAIL);

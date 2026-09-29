@@ -63,7 +63,12 @@ const navigation = hasPosts
       rel="stylesheet"
     />
 
-    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {
+      /* Escape every "<" in the serialized JSON so an embedded closing tag in any
+         title/description can never terminate this <script> early; the escaped form
+         is still valid JSON, so JSON.parse round-trips it back to a plain "<". */
+    }
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")} />}
   </head>
   <body>
     <a
