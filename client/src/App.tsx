@@ -33,11 +33,11 @@ function scrollToHash(hash: string) {
   el?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function Logo({ profile }: { profile: Portfolio["profile"] }) {
+function Logo({ name }: { name: string }) {
   return (
     <div className="flex items-center gap-3" data-testid="brand-logo">
       <svg
-        aria-label={`${profile.name} portfolio mark`}
+        aria-label={`${name} portfolio mark`}
         className="h-11 w-11 text-primary"
         fill="none"
         viewBox="0 0 48 48"
@@ -49,7 +49,7 @@ function Logo({ profile }: { profile: Portfolio["profile"] }) {
         <path d="M24 24h8M24 24l-6-5M24 24l-6 5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
       </svg>
       <div>
-        <p className="font-display text-base font-bold leading-tight">{profile.name}</p>
+        <p className="font-display text-base font-bold leading-tight">{name}</p>
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Core Infra</p>
       </div>
     </div>
@@ -61,7 +61,9 @@ const THEME_STORAGE_KEY = "theme";
 
 function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">(() =>
-    document.documentElement.classList.contains("dark") ? "dark" : "light",
+    typeof document !== "undefined" && document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light",
   );
 
   function toggleTheme() {
@@ -83,38 +85,58 @@ function ThemeToggle() {
       onClick={toggleTheme}
       type="button"
     >
-      {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+      <Sun className="hidden h-5 w-5 dark:block" />
+      <Moon className="h-5 w-5 dark:hidden" />
     </button>
   );
 }
 
-function Header({ portfolio }: { portfolio: Portfolio }) {
+// Section anchors are stored as "#about"; rendered root-relative so they work from /writing/<slug>/ too.
+function navHref(href: string) {
+  return href.startsWith("#") ? `/${href}` : href;
+}
+
+export function Header({ navigation, name }: { navigation: Link[]; name: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const nav = portfolio.navigation;
+  const nav = navigation;
+
+  function handleNavClick(event: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    if (!href.startsWith("#") || window.location.pathname !== "/") return;
+    event.preventDefault();
+    window.history.pushState(null, "", href);
+    scrollToHash(href);
+  }
+
+  useEffect(() => {
+    if (window.location.pathname !== "/" || !window.location.hash) return;
+    const hash = window.location.hash;
+    document.fonts.ready.then(() => scrollToHash(hash));
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/88 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <button
+        <a
           className="text-left"
           data-testid="button-scroll-home"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          type="button"
+          href="/"
+          onClick={(event) => {
+            if (window.location.pathname !== "/") return;
+            event.preventDefault();
+            window.history.pushState(null, "", "/");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         >
-          <Logo profile={portfolio.profile} />
-        </button>
+          <Logo name={name} />
+        </a>
         <nav aria-label="Main navigation" className="hidden items-center gap-1 md:flex">
           {nav.map((item) => (
             <a
               className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
               data-testid={`link-nav-${item.label.toLowerCase()}`}
-              href={item.href}
+              href={navHref(item.href)}
               key={item.href}
-              onClick={(event) => {
-                event.preventDefault();
-                window.history.pushState(null, "", item.href);
-                scrollToHash(item.href);
-              }}
+              onClick={(event) => handleNavClick(event, item.href)}
             >
               {item.label}
             </a>
@@ -140,13 +162,11 @@ function Header({ portfolio }: { portfolio: Portfolio }) {
               <a
                 className="rounded-md px-3 py-3 text-left text-sm font-semibold text-muted-foreground hover:bg-secondary hover:text-foreground"
                 data-testid={`link-mobile-nav-${item.label.toLowerCase()}`}
-                href={item.href}
+                href={navHref(item.href)}
                 key={item.href}
                 onClick={(event) => {
-                  event.preventDefault();
                   setMenuOpen(false);
-                  window.history.pushState(null, "", item.href);
-                  scrollToHash(item.href);
+                  handleNavClick(event, item.href);
                 }}
               >
                 {item.label}
@@ -180,7 +200,7 @@ function ExternalLinkButton({ link, primary = false }: { link: Link; primary?: b
   );
 }
 
-function Hero({ portfolio }: { portfolio: Portfolio }) {
+export function Hero({ portfolio }: { portfolio: Portfolio }) {
   const { profile, metrics } = portfolio;
   const primaryLinks = profile.links;
 
@@ -258,7 +278,7 @@ function SectionTitle({ kicker, title, children }: { kicker: string; title: stri
   );
 }
 
-function AboutSection({ portfolio }: { portfolio: Portfolio }) {
+export function AboutSection({ portfolio }: { portfolio: Portfolio }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8" id="about">
       <SectionTitle kicker="About" title="From Meta-scale production systems to MLOps." />
@@ -273,7 +293,7 @@ function AboutSection({ portfolio }: { portfolio: Portfolio }) {
   );
 }
 
-function Impact({ portfolio }: { portfolio: Portfolio }) {
+export function Impact({ portfolio }: { portfolio: Portfolio }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8" id="impact">
       <SectionTitle kicker="Quantified impact" title="Infrastructure scale, made observable and faster.">
@@ -330,7 +350,7 @@ function ExperienceCard({ item, index }: { item: Experience; index: number }) {
   );
 }
 
-function ExperienceSection({ experience }: { experience: Experience[] }) {
+export function ExperienceSection({ experience }: { experience: Experience[] }) {
   return (
     <section className="bg-secondary/45 py-20" id="experience">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -383,7 +403,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
-function ProjectsSection({ projects }: { projects: Project[] }) {
+export function ProjectsSection({ projects }: { projects: Project[] }) {
   const sortedProjects = useMemo(() => [...projects].sort((a, b) => Number(b.featured) - Number(a.featured)), [projects]);
 
   return (
@@ -400,7 +420,7 @@ function ProjectsSection({ projects }: { projects: Project[] }) {
   );
 }
 
-function SkillsSection({ groups, certifications }: { groups: SkillGroup[]; certifications: Certification[] }) {
+export function SkillsSection({ groups, certifications }: { groups: SkillGroup[]; certifications: Certification[] }) {
   return (
     <section className="bg-secondary/45 py-20" id="skills">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
@@ -450,7 +470,7 @@ function SkillsSection({ groups, certifications }: { groups: SkillGroup[]; certi
   );
 }
 
-function EducationSection({ portfolio }: { portfolio: Portfolio }) {
+export function EducationSection({ portfolio }: { portfolio: Portfolio }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
@@ -519,7 +539,7 @@ function NotesSection({ notes }: { notes: Note[] }) {
   );
 }
 
-function Contact({ portfolio }: { portfolio: Portfolio }) {
+export function Contact({ portfolio }: { portfolio: Portfolio }) {
   return (
     <footer className="border-t border-border bg-card" id="contact">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_auto] lg:px-8">
@@ -556,18 +576,12 @@ function Contact({ portfolio }: { portfolio: Portfolio }) {
 function PortfolioPage() {
   const data = staticPortfolio;
 
-  useEffect(() => {
-    if (!window.location.hash) return;
-    const hash = window.location.hash;
-    document.fonts.ready.then(() => scrollToHash(hash));
-  }, []);
-
   return (
     <>
       <a className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-primary-foreground" href="#main">
         Skip to content
       </a>
-      <Header portfolio={data} />
+      <Header navigation={data.navigation} name={data.profile.name} />
       <main id="main">
         <Hero portfolio={data} />
         <AboutSection portfolio={data} />

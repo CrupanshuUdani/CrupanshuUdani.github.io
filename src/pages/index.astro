@@ -1,19 +1,38 @@
 ---
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import { portfolio } from "@shared/portfolio";
+import {
+  AboutSection,
+  EducationSection,
+  ExperienceSection,
+  Hero,
+  Impact,
+  ProjectsSection,
+  SkillsSection,
+} from "@/App";
+
+const { profile, seo } = portfolio;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  url: seo.siteUrl,
+  image: seo.ogImage,
+  jobTitle: profile.title,
+  // Only absolute profile URLs are identities; same-origin files (e.g. a resume PDF) are not.
+  sameAs: profile.links.filter((link) => /^https?:\/\//.test(link.href)).map((link) => link.href),
+};
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{portfolio.seo.title}</title>
-  </head>
-  <body>
-    <main id="main" class="mx-auto max-w-7xl">
-      <h1>{portfolio.profile.name}</h1>
-      <p>{portfolio.profile.title}</p>
-    </main>
-  </body>
-</html>
+<BaseLayout title={seo.title} description={seo.description} canonical={seo.siteUrl} jsonLd={jsonLd}>
+  <main id="main">
+    <Hero portfolio={portfolio} />
+    <AboutSection portfolio={portfolio} />
+    <Impact portfolio={portfolio} />
+    <ExperienceSection experience={portfolio.experience} />
+    <ProjectsSection projects={portfolio.projects} />
+    <SkillsSection certifications={portfolio.certifications} groups={portfolio.skillGroups} />
+    <EducationSection portfolio={portfolio} />
+  </main>
+</BaseLayout>
