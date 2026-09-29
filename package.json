@@ -10,6 +10,7 @@
     "dev:astro": "astro dev",
     "start": "NODE_ENV=production node dist/index.cjs",
     "check": "astro sync && tsc",
+    "verify:writing": "tsx script/verify-writing-output.ts",
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
