@@ -56,19 +56,12 @@ function Logo({ name }: { name: string }) {
   );
 }
 
-// Must stay in sync with the pre-paint init script in client/index.html.
+// Must stay in sync with the pre-paint init scripts in client/index.html and src/components/ThemeScript.astro.
 const THEME_STORAGE_KEY = "theme";
 
 function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">(() =>
-    typeof document !== "undefined" && document.documentElement.classList.contains("dark")
-      ? "dark"
-      : "light",
-  );
-
   function toggleTheme() {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
+    const next = document.documentElement.classList.contains("dark") ? "light" : "dark";
     document.documentElement.classList.toggle("dark", next === "dark");
     try {
       localStorage.setItem(THEME_STORAGE_KEY, next);
@@ -77,9 +70,11 @@ function ThemeToggle() {
     }
   }
 
+  // No React state: the pre-paint script already set .dark on <html>, and every theme-dependent
+  // piece below (icon and accessible name) is chosen by CSS from that class. State would render
+  // "light" on the server and mismatch on hydration.
   return (
     <button
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-xs hover-elevate active-elevate-2"
       data-testid="button-theme-toggle"
       onClick={toggleTheme}
@@ -87,6 +82,8 @@ function ThemeToggle() {
     >
       <Sun className="hidden h-5 w-5 dark:block" />
       <Moon className="h-5 w-5 dark:hidden" />
+      <span className="sr-only dark:hidden">Switch to dark mode</span>
+      <span className="sr-only hidden dark:inline">Switch to light mode</span>
     </button>
   );
 }
