@@ -1,0 +1,37 @@
+.prose-site {
+  color: hsl(var(--foreground));
+  line-height: 1.75;
+}
+.prose-site > * + * { margin-top: 1.25rem; }
+.prose-site h2 {
+  font-family: "Cabinet Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+}
+.prose-site h3 { font-size: 1.3rem; font-weight: 700; margin-top: 2rem; }
+.prose-site a { text-decoration: underline; text-underline-offset: 3px; }
+.prose-site ul { list-style: disc; padding-left: 1.5rem; }
+.prose-site ol { list-style: decimal; padding-left: 1.5rem; }
+.prose-site li + li { margin-top: 0.5rem; }
+.prose-site blockquote {
+  border-left: 3px solid hsl(var(--border));
+  padding-left: 1rem;
+  color: hsl(var(--muted-foreground));
+}
+.prose-site pre {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5625rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+.prose-site :not(pre) > code {
+  background: hsl(var(--secondary));
+  border-radius: 0.1875rem;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.875em;
+}
+.prose-site img { border-radius: 0.5625rem; }

@@ -3,6 +3,7 @@ import ThemeScript from "../components/ThemeScript.astro";
 import "../styles/global.css";
 import { portfolio } from "@shared/portfolio";
 import { Contact, Header } from "@/App";
+import { getPublishedPosts } from "../lib/writing";
 
 interface Props {
   title: string;
@@ -22,7 +23,10 @@ const {
   jsonLd,
 } = Astro.props;
 
-const navigation = portfolio.navigation;
+const hasPosts = (await getPublishedPosts()).length > 0;
+const navigation = hasPosts
+  ? [...portfolio.navigation, { label: "Writing", href: "/writing/" }]
+  : portfolio.navigation;
 ---
 
 <!doctype html>
