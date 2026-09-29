@@ -1,0 +1,19 @@
+---
+import "../styles/global.css";
+import { portfolio } from "@shared/portfolio";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{portfolio.seo.title}</title>
+  </head>
+  <body>
+    <main id="main" class="mx-auto max-w-7xl">
+      <h1>{portfolio.profile.name}</h1>
+      <p>{portfolio.profile.title}</p>
+    </main>
+  </body>
+</html>
