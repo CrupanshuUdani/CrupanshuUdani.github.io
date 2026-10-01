@@ -33,3 +33,6 @@ jobs:
 
       - name: Build static site
         run: npm run build
+
+      - name: Verify raw HTML output
+        run: npm run verify:writing

@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { portfolio } from "@shared/portfolio";
+import Hero from "../components/sections/Hero";
+import AboutSection from "../components/sections/AboutSection";
+import Impact from "../components/sections/Impact";
+import ExperienceSection from "../components/sections/ExperienceSection";
+import ProjectsSection from "../components/sections/ProjectsSection";
+import SkillsSection from "../components/sections/SkillsSection";
+import EducationSection from "../components/sections/EducationSection";
+import LatestWriting from "../components/LatestWriting.astro";
+
+const { profile, seo } = portfolio;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  url: seo.siteUrl,
+  image: seo.ogImage,
+  jobTitle: profile.title,
+  // Only absolute profile URLs are identities; same-origin files (e.g. a resume PDF) are not.
+  sameAs: profile.links.filter((link) => /^https?:\/\//.test(link.href)).map((link) => link.href),
+};
+---
+
+<BaseLayout title={seo.title} description={seo.description} canonical={seo.siteUrl} jsonLd={jsonLd}>
+  <main id="main">
+    <Hero portfolio={portfolio} />
+    <AboutSection portfolio={portfolio} />
+    <Impact portfolio={portfolio} />
+    <ExperienceSection copy={portfolio.sections.experience} experience={portfolio.experience} />
+    <ProjectsSection copy={portfolio.sections.projects} projects={portfolio.projects} />
+    <SkillsSection
+      certifications={portfolio.certifications}
+      groups={portfolio.skillGroups}
+      sections={portfolio.sections}
+    />
+    <EducationSection portfolio={portfolio} />
+    <LatestWriting />
+  </main>
+</BaseLayout>

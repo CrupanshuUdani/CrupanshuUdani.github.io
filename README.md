@@ -4,39 +4,32 @@ Personal GitHub Pages portfolio for Crupanshu Udani, focused on production engin
 
 ## Edit portfolio content
 
-The portfolio is intentionally modular. Most public-facing content lives in:
+`shared/portfolio.ts` holds the home page content (typed by `shared/schema.ts`).
 
-```text
-shared/portfolio.ts
-```
+## Writing
 
-To update the site later:
+Posts are Markdown in `src/content/writing/<slug>.md`. Required frontmatter:
 
-1. Edit `shared/portfolio.ts`.
-2. Run `npm run check` to validate types.
-3. Run `npm run build` to generate the static site.
-4. Push to `main`; GitHub Actions will redeploy GitHub Pages automatically.
+- `title`
+- `description` (50–160 chars)
+- `pubDate`
+- `tier` (`field-note` | `essay` | `til`)
 
-## Local development
+Optional frontmatter: `updated`, `tags`, `draft: true`, `canonicalOverride`.
 
-```bash
-npm install
-npm run dev
-```
+`/writing/`, the "Writing" nav link, and the home page's "Latest writing" block only appear once a non-draft post exists; `/rss.xml` is always built but has no items until then.
 
-## Static build
+## Commands
 
 ```bash
-npm run check
-npm run build
+npm run dev              # astro dev
+npm run check             # astro check + tsc
+npm run build             # static site -> dist/public
+npm run verify:writing    # raw-HTML checks on the build
 ```
 
-The static GitHub Pages artifact is generated in:
-
-```text
-dist/public
-```
+If the host's native esbuild misbehaves, run any of the above through `script/docker.sh "<cmd>"` instead (runs in `node:24`, matching CI).
 
 ## Deployment
 
-This repository includes `.github/workflows/deploy-pages.yml`, which builds the source on every `main` update and publishes the compiled static files to the `gh-pages` branch. GitHub Pages serves the site from that branch.
+`.github/workflows/ci.yml` runs check → build → verify on every pull request. `.github/workflows/deploy-pages.yml` runs the same steps on push to `main` and publishes `dist/public` to the `gh-pages` branch, served at https://crupanshuudani.com. Never edit `gh-pages` by hand — it's fully regenerated on every `main` push.

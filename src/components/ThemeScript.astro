@@ -1,0 +1,16 @@
+---
+// Runs before first paint so the correct theme is applied without a flash.
+// The "theme" storage key must stay in sync with ThemeToggle in src/components/react/Header.tsx.
+// Must stay synchronous and ahead of the stylesheet: do not defer, do not move.
+---
+
+<script is:inline>
+  (function () {
+    var stored = null;
+    try { stored = localStorage.getItem("theme"); } catch (e) {}
+    var dark =
+      stored === "dark" ||
+      (stored !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    document.documentElement.classList.toggle("dark", dark);
+  })();
+</script>
