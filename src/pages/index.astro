@@ -29,9 +29,13 @@ const jsonLd = {
     <Hero portfolio={portfolio} />
     <AboutSection portfolio={portfolio} />
     <Impact portfolio={portfolio} />
-    <ExperienceSection experience={portfolio.experience} />
-    <ProjectsSection projects={portfolio.projects} />
-    <SkillsSection certifications={portfolio.certifications} groups={portfolio.skillGroups} />
+    <ExperienceSection copy={portfolio.sections.experience} experience={portfolio.experience} />
+    <ProjectsSection copy={portfolio.sections.projects} projects={portfolio.projects} />
+    <SkillsSection
+      certifications={portfolio.certifications}
+      groups={portfolio.skillGroups}
+      sections={portfolio.sections}
+    />
     <EducationSection portfolio={portfolio} />
     <LatestWriting />
   </main>

@@ -6,7 +6,7 @@ export default function EducationSection({ portfolio }: { portfolio: Portfolio }
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-        <SectionTitle kicker="Education" title="AI, databases, intelligent systems, and computer engineering." />
+        <SectionTitle copy={portfolio.sections.education} />
         <div className="grid gap-4">
           {portfolio.education.map((education) => (
             <article className="panel rounded-xl p-6" key={education.institution}>

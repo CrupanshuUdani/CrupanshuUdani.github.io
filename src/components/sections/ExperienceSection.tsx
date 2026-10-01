@@ -1,5 +1,5 @@
 import { CheckCircle2 } from "lucide-react";
-import type { Experience } from "@shared/schema";
+import type { Experience, SectionCopy } from "@shared/schema";
 import SectionTitle from "./SectionTitle";
 
 function ExperienceCard({ item, index }: { item: Experience; index: number }) {
@@ -33,13 +33,11 @@ function ExperienceCard({ item, index }: { item: Experience; index: number }) {
   );
 }
 
-export default function ExperienceSection({ experience }: { experience: Experience[] }) {
+export default function ExperienceSection({ experience, copy }: { experience: Experience[]; copy: SectionCopy }) {
   return (
     <section className="bg-secondary/45 py-20" id="experience">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle kicker="Experience" title="From internet banking systems to Meta Core Infra.">
-          The through-line is production ownership: define the system, improve the workflow, reduce failure modes, and keep the service healthy.
-        </SectionTitle>
+        <SectionTitle copy={copy} />
         <div className="grid gap-5">
           {experience.map((item, index) => (
             <ExperienceCard index={index} item={item} key={`${item.company}-${item.role}`} />

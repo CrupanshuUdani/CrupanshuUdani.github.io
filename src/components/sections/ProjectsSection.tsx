@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { useMemo } from "react";
-import type { Project } from "@shared/schema";
+import type { Project, SectionCopy } from "@shared/schema";
 import SectionTitle from "./SectionTitle";
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
@@ -39,14 +39,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
-export default function ProjectsSection({ projects }: { projects: Project[] }) {
+export default function ProjectsSection({ projects, copy }: { projects: Project[]; copy: SectionCopy }) {
   const sortedProjects = useMemo(() => [...projects].sort((a, b) => Number(b.featured) - Number(a.featured)), [projects]);
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8" id="projects">
-      <SectionTitle kicker="GitHub and research" title="Selected work that supports the infrastructure story.">
-        Public GitHub repositories and academic projects are used as proof points, while private repositories stay private.
-      </SectionTitle>
+      <SectionTitle copy={copy} />
       <div className="grid gap-5 md:grid-cols-2">
         {sortedProjects.map((project, index) => (
           <ProjectCard index={index} key={project.name} project={project} />

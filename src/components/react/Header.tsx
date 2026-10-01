@@ -8,7 +8,7 @@ function scrollToHash(hash: string) {
   el?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function Logo({ name }: { name: string }) {
+function Logo({ name, tagline }: { name: string; tagline: string }) {
   return (
     <div className="flex items-center gap-3" data-testid="brand-logo">
       <svg
@@ -23,7 +23,7 @@ function Logo({ name }: { name: string }) {
       </svg>
       <div>
         <p className="font-display text-base font-bold leading-tight">{name}</p>
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Core Infra</p>
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{tagline}</p>
       </div>
     </div>
   );
@@ -66,7 +66,7 @@ function navHref(href: string) {
   return href.startsWith("#") ? `/${href}` : href;
 }
 
-export default function Header({ navigation, name }: { navigation: Link[]; name: string }) {
+export default function Header({ navigation, name, tagline }: { navigation: Link[]; name: string; tagline: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const nav = navigation;
 
@@ -97,7 +97,7 @@ export default function Header({ navigation, name }: { navigation: Link[]; name:
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
-          <Logo name={name} />
+          <Logo name={name} tagline={tagline} />
         </a>
         <nav aria-label="Main navigation" className="hidden items-center gap-1 md:flex">
           {nav.map((item) => (

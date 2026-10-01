@@ -3,7 +3,7 @@ import type { Portfolio } from "@shared/schema";
 import ExternalLinkButton from "./ExternalLinkButton";
 
 export default function Hero({ portfolio }: { portfolio: Portfolio }) {
-  const { profile, metrics } = portfolio;
+  const { profile, metrics, heroPanel } = portfolio;
   const primaryLinks = profile.links;
 
   return (
@@ -40,8 +40,8 @@ export default function Hero({ portfolio }: { portfolio: Portfolio }) {
           <div className="panel overflow-hidden rounded-xl">
             <div className="flex items-center justify-between border-b border-card-border bg-secondary/60 px-5 py-4">
               <div>
-                <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Reliability surface</p>
-                <p className="font-display text-xl font-bold">Production signal map</p>
+                <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{heroPanel.kicker}</p>
+                <p className="font-display text-xl font-bold">{heroPanel.title}</p>
               </div>
               <TerminalSquare className="h-6 w-6 text-primary" />
             </div>
@@ -61,7 +61,7 @@ export default function Hero({ portfolio }: { portfolio: Portfolio }) {
             </div>
           </div>
           <div className="absolute -bottom-6 -right-2 hidden w-64 rounded-xl border border-border bg-card p-5 shadow-lg sm:block">
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">Current direction</p>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{heroPanel.directionLabel}</p>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">{profile.rolesOfInterest}.</p>
           </div>
         </div>

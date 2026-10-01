@@ -13,6 +13,7 @@ export const portfolio: Portfolio = {
   profile: {
     name: "Crupanshu Udani",
     title: "Production Engineer | Reliability & Core Infrastructure (Ex-Meta)",
+    tagline: "Core Infra",
     headline: "Production engineer building toward AI infrastructure and MLOps.",
     location: "San Francisco Bay Area",
     availability: `Currently pursuing an MBA and a self-directed MLOps transition; open to conversations about ${ROLES_OF_INTEREST} roles.`,
@@ -32,6 +33,47 @@ export const portfolio: Portfolio = {
     { label: "Skills", href: "#skills" },
     { label: "Contact", href: "#contact" },
   ],
+  heroPanel: {
+    kicker: "Reliability surface",
+    title: "Production signal map",
+    directionLabel: "Current direction",
+  },
+  pages: {
+    writing: { title: "Writing", subtitle: "Reliability and operations for AI systems." },
+  },
+  sections: {
+    about: { kicker: "About", title: "From Meta-scale production systems to MLOps." },
+    impact: {
+      kicker: "Quantified impact",
+      title: "Infrastructure scale, made observable and faster.",
+      subtitle: "A portfolio for production systems should lead with measurable operating impact, not a stack list.",
+    },
+    experience: {
+      kicker: "Experience",
+      title: "From internet banking systems to Meta Core Infra.",
+      subtitle:
+        "The through-line is production ownership: define the system, improve the workflow, reduce failure modes, and keep the service healthy.",
+    },
+    projects: {
+      kicker: "GitHub and research",
+      title: "Selected work that supports the infrastructure story.",
+      subtitle:
+        "Public GitHub repositories and academic projects are used as proof points, while private repositories stay private.",
+    },
+    skills: {
+      kicker: "Skills",
+      title: "Operating range across reliability, systems, and delivery.",
+      subtitle: "The site keeps skills grouped by hiring signal so the strongest SRE and platform evidence is easy to scan.",
+    },
+    certifications: { kicker: "Certifications", title: "Continuous learning map." },
+    education: { kicker: "Education", title: "AI, databases, intelligent systems, and computer engineering." },
+    contact: {
+      kicker: "Contact",
+      title: "Let’s talk about reliable systems.",
+      subtitle: `Best fit: ${ROLES_OF_INTEREST} roles that need strong systems ownership.`,
+    },
+    writing: { kicker: "Writing", title: "Notes on reliability, platforms, and the MLOps transition." },
+  },
   metrics: [
     {
       value: "~10B",

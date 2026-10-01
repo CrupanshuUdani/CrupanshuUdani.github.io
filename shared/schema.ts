@@ -50,10 +50,17 @@ export const educationSchema = z.object({
   detail: z.string(),
 });
 
+export const sectionCopySchema = z.object({
+  kicker: z.string(),
+  title: z.string(),
+  subtitle: z.string().optional(),
+});
+
 export const portfolioSchema = z.object({
   profile: z.object({
     name: z.string(),
     title: z.string(),
+    tagline: z.string(),
     headline: z.string(),
     location: z.string(),
     availability: z.string(),
@@ -62,6 +69,25 @@ export const portfolioSchema = z.object({
     links: z.array(linkSchema),
   }),
   navigation: z.array(linkSchema),
+  heroPanel: z.object({
+    kicker: z.string(),
+    title: z.string(),
+    directionLabel: z.string(),
+  }),
+  pages: z.object({
+    writing: z.object({ title: z.string(), subtitle: z.string() }),
+  }),
+  sections: z.object({
+    about: sectionCopySchema,
+    impact: sectionCopySchema,
+    experience: sectionCopySchema,
+    projects: sectionCopySchema,
+    skills: sectionCopySchema,
+    certifications: sectionCopySchema,
+    education: sectionCopySchema,
+    contact: sectionCopySchema,
+    writing: sectionCopySchema,
+  }),
   metrics: z.array(metricSchema),
   impactNarrative: z.array(z.string()),
   about: z.array(z.string()),
@@ -80,6 +106,7 @@ export const portfolioSchema = z.object({
   }),
 });
 
+export type SectionCopy = z.infer<typeof sectionCopySchema>;
 export type Link = z.infer<typeof linkSchema>;
 export type Metric = z.infer<typeof metricSchema>;
 export type Experience = z.infer<typeof experienceSchema>;

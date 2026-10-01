@@ -1,18 +1,18 @@
 ---
 // src/components/LatestWriting.astro
+import { portfolio } from "@shared/portfolio";
 import { formatPostDate, getPublishedPosts } from "../lib/writing";
 
 const posts = (await getPublishedPosts()).slice(0, 4);
+const copy = portfolio.sections.writing;
 ---
 
 {
   posts.length > 0 && (
     <section class="bg-secondary/45 py-20" id="writing">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Writing</p>
-        <h2 class="font-display mt-3 text-3xl font-extrabold tracking-tight">
-          Notes on reliability, platforms, and the MLOps transition.
-        </h2>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{copy.kicker}</p>
+        <h2 class="font-display mt-3 text-3xl font-extrabold tracking-tight">{copy.title}</h2>
         <div class="mt-10 grid gap-5 md:grid-cols-2">
           {posts.map((post) => (
             <article class="panel rounded-xl p-6">

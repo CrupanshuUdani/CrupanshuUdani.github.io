@@ -1,15 +1,21 @@
 import { BookOpen } from "lucide-react";
-import type { Certification, SkillGroup } from "@shared/schema";
+import type { Certification, Portfolio, SkillGroup } from "@shared/schema";
 import SectionTitle from "./SectionTitle";
 
-export default function SkillsSection({ groups, certifications }: { groups: SkillGroup[]; certifications: Certification[] }) {
+export default function SkillsSection({
+  groups,
+  certifications,
+  sections,
+}: {
+  groups: SkillGroup[];
+  certifications: Certification[];
+  sections: Pick<Portfolio["sections"], "skills" | "certifications">;
+}) {
   return (
     <section className="bg-secondary/45 py-20" id="skills">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
         <div>
-          <SectionTitle kicker="Skills" title="Operating range across reliability, systems, and delivery.">
-            The site keeps skills grouped by hiring signal so the strongest SRE and platform evidence is easy to scan.
-          </SectionTitle>
+          <SectionTitle copy={sections.skills} />
           <div className="grid gap-4">
             {groups.map((group) => (
               <article className="rounded-xl border border-border bg-card p-5" data-testid={`card-skill-${group.title}`} key={group.title}>
@@ -27,8 +33,8 @@ export default function SkillsSection({ groups, certifications }: { groups: Skil
         </div>
         <div>
           <div className="mb-10">
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary">Certifications</p>
-            <h2 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.04em]">Continuous learning map.</h2>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary">{sections.certifications.kicker}</p>
+            <h2 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.04em]">{sections.certifications.title}</h2>
           </div>
           <div className="grid gap-4">
             {certifications.map((cert) => (

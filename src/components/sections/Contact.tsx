@@ -6,11 +6,9 @@ export default function Contact({ portfolio }: { portfolio: Portfolio }) {
     <footer className="border-t border-border bg-card" id="contact">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_auto] lg:px-8">
         <div>
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary">Contact</p>
-          <h2 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.04em]">Let’s talk about reliable systems.</h2>
-          <p className="mt-4 max-w-2xl text-muted-foreground">
-            Best fit: {portfolio.profile.rolesOfInterest} roles that need strong systems ownership.
-          </p>
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-primary">{portfolio.sections.contact.kicker}</p>
+          <h2 className="font-display mt-3 text-4xl font-extrabold tracking-[-0.04em]">{portfolio.sections.contact.title}</h2>
+          <p className="mt-4 max-w-2xl text-muted-foreground">{portfolio.sections.contact.subtitle}</p>
         </div>
         <div className="flex flex-col gap-3 sm:min-w-64">
           {portfolio.profile.links.map((link) => (
