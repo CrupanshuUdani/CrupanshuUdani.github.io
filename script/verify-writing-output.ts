@@ -116,6 +116,18 @@ if (active) {
   if (sitemap !== null) check(!sitemap.includes("/writing/"), "sitemap: dormant but lists /writing/");
 }
 
+// Scroll reveal: `.fade-in` starts at opacity 0 and relies on a scroll-driven animation to
+// show it. If the CSS minifier folds `animation-timeline` into the `animation` shorthand
+// (`animation: … view()`), Chrome drops the whole declaration and the content stays invisible.
+for (const file of (await listFiles(OUT)).filter((f) => f.endsWith(".css"))) {
+  const css = await readFile(file, "utf-8");
+  const name = path.relative(OUT, file);
+  check(!/animation:[^;}]*\bview\(/.test(css), `${name}: animation-timeline was folded into the animation shorthand (Chrome rejects it)`);
+  if (/\.fade-in\{[^}]*opacity:0/.test(css)) {
+    check(/\.fade-in\{[^}]*animation-timeline:view\(\)/.test(css), `${name}: .fade-in hides content but has no animation-timeline to reveal it`);
+  }
+}
+
 // Privacy: the owner's personal mailbox must stay off the site (removed 2026-09-28).
 // Narrowed to personal-mailbox domains so generic addresses in post content
 // (e.g. git@github.com) don't false-positive the check.
