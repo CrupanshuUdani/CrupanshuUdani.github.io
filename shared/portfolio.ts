@@ -23,6 +23,7 @@ export const portfolio: Portfolio = {
     links: [
       { label: "GitHub", href: "https://github.com/CrupanshuUdani" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/crupanshu-udani/" },
+      { label: "Email", href: "mailto:crupanshu@crupanshuudani.com" },
     ],
   },
   navigation: [
