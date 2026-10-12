@@ -46,7 +46,7 @@ export const portfolio: Portfolio = {
     impact: {
       kicker: "Quantified impact",
       title: "Infrastructure scale, made observable and faster.",
-      subtitle: "A portfolio for production systems should lead with measurable operating impact, not a stack list.",
+      subtitle: "Measured results from operating Tier-0 infrastructure at Meta scale.",
     },
     experience: {
       kicker: "Experience",
@@ -58,12 +58,12 @@ export const portfolio: Portfolio = {
       kicker: "GitHub and research",
       title: "Selected work that supports the infrastructure story.",
       subtitle:
-        "Public GitHub repositories and academic projects are used as proof points, while private repositories stay private.",
+        "Public repositories and research projects across reliability, computer vision, and data analysis.",
     },
     skills: {
       kicker: "Skills",
       title: "Operating range across reliability, systems, and delivery.",
-      subtitle: "The site keeps skills grouped by hiring signal so the strongest SRE and platform evidence is easy to scan.",
+      subtitle: "Grouped by where the work happened: reliability, infrastructure, ML foundations, and delivery.",
     },
     certifications: { kicker: "Certifications", title: "Continuous learning map." },
     education: { kicker: "Education", title: "AI, databases, intelligent systems, and computer engineering." },
